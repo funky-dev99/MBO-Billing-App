@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:billing_app/Pages/printerPage.dart';
-import 'package:billing_app/Pages/salesPage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mbo_billing_app/Pages/printerPage.dart';
+import 'package:mbo_billing_app/Pages/salesPage.dart';
 
 import 'itemsPage.dart';
 
