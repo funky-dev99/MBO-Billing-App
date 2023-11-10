@@ -125,7 +125,7 @@ class _PrinterPageState extends State<PrinterPage> {
 
   Future<void> updateAvailableQuantities(Map<String, int> updatedQuantities) async {
     try {
-      var url = "http://dev.workspace.cbs.lk/updateAvailableQuantity.php";
+      var url = "http://dev.workspace.cbs.lk/updateAvailableQuantityMbO.php";
 
       var data = {
         "quantities": updatedQuantities,
@@ -165,7 +165,7 @@ class _PrinterPageState extends State<PrinterPage> {
     required subTotal,
   }) async {
 
-    var url = "http://dev.workspace.cbs.lk/addSale.php";
+    var url = "http://dev.workspace.cbs.lk/addSaleMbo.php";
 
     var data = {
       "bill_no": billNo,
@@ -201,7 +201,7 @@ class _PrinterPageState extends State<PrinterPage> {
       }
     } else {
       if (!mounted) return;
-      snackBar(context, "Error", Colors.redAccent);
+      snackBar(context, "Error Two", Colors.redAccent);
     }
   }
 
@@ -452,19 +452,18 @@ class _PrinterPageState extends State<PrinterPage> {
 
                             list.add(LineText(type: LineText.TYPE_TEXT, content: '--------------------------------', weight: 1, align: LineText.ALIGN_CENTER,linefeed: 1));
 
-                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'Gunasewana Mills', weight: 1, align: LineText.ALIGN_CENTER, fontZoom: 2, linefeed: 1));
+                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'Merch by OMA', weight: 1, align: LineText.ALIGN_CENTER, fontZoom: 2, linefeed: 1));
                             list.add(LineText(linefeed: 1));
 
-                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'No.170,Gunasewana,Negombo Road', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
-                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'Marandagahamula', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
-                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'Tel: 077-7728960 | 071-7728960', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
+                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'No.39,Thalpotha,Polonnaruwa', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
+                            list.add(LineText(type: LineText.TYPE_TEXT, content: 'Tel: 070-1260261 | 070-4670959', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: '--------------------------------', weight: 1, align: LineText.ALIGN_CENTER, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: 'Receipt No:', weight: 1, align: LineText.ALIGN_LEFT, x: 0, relativeX: 0, linefeed: 0));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: generatedReceiptId(), weight: 1, align: LineText.ALIGN_LEFT, x: 140, relativeX: 0, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: 'Customer:', weight: 1, align: LineText.ALIGN_LEFT, x: 0, relativeX: 0, linefeed: 0));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: widget.customerName, weight: 1, align: LineText.ALIGN_LEFT, x: 130, relativeX: 0, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: 'Cashier:', weight: 1, align: LineText.ALIGN_LEFT, x: 0, relativeX: 0, linefeed: 0));
-                            list.add(LineText(type: LineText.TYPE_TEXT, content: "DinethriG", weight: 1, align: LineText.ALIGN_LEFT, x: 110, relativeX: 0, linefeed: 1));
+                            list.add(LineText(type: LineText.TYPE_TEXT, content: "OmandaS", weight: 1, align: LineText.ALIGN_LEFT, x: 110, relativeX: 0, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: getCurrentDateTime(), weight: 1, align: LineText.ALIGN_LEFT, x: 0, relativeX: 0, linefeed: 1));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: 'Payment Type:', weight: 1, align: LineText.ALIGN_LEFT, x: 0, relativeX: 0, linefeed: 0));
                             list.add(LineText(type: LineText.TYPE_TEXT, content: "Cash", weight: 1, align: LineText.ALIGN_LEFT, x: 165, relativeX: 0, linefeed: 1));
@@ -521,7 +520,7 @@ class _PrinterPageState extends State<PrinterPage> {
 
                             await bluetoothPrint.printReceipt(config, list);
 
-                            addSale(context, billNo: generatedReceiptId(), cashier: "DinethriG", billDetails: receiptString, subTotal: widget.subTotal, customer: widget.customerName);
+                            addSale(context, billNo: generatedReceiptId(), cashier: "OmandaS", billDetails: receiptString, subTotal: widget.subTotal, customer: widget.customerName);
                             updateAvailableQuantities(widget.availableQuantities);
                           }:null,
                         ),

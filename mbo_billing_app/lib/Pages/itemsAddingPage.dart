@@ -39,14 +39,14 @@ class _AddingItemsPageState extends State<AddingItemsPage> {
     }
 
     // If validation passes, proceed with adding the item
-    var url = "http://dev.workspace.cbs.lk/addItems.php";
+    var url = "http://dev.workspace.cbs.lk/addItemsMbO.php";
 
     var data = {
       "item_code": itemCode,
       "item_name": name,
       "price": price.toString(),
       "available_quantity": quantity.toString(),
-      "status_" :' 1',
+      "status_" :'1',
       // Add other required parameters for your API
     };
 

@@ -19,7 +19,7 @@ class _SalesPageState extends State<SalesPage> {
   Future<List<Bill>> getSalesList(String filterType, DateTime? selectedDate) async {
     salesData.clear();
 
-    const url = "http://dev.workspace.cbs.lk/getSales.php";
+    const url = "http://dev.workspace.cbs.lk/getSalesMbO.php";
     String formattedDate = '';
 
     if (selectedDate != null) {

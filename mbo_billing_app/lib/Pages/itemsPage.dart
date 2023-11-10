@@ -25,7 +25,7 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
   Future<List<Item>> fetchItems() async {
-    const url = "http://dev.workspace.cbs.lk/getItems.php";
+    const url = "http://dev.workspace.cbs.lk/getItemsMbO.php";
     http.Response response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

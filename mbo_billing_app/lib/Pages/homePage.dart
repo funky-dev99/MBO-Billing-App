@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<Item>> fetchItems() async {
-    const url = "http://dev.workspace.cbs.lk/getItems.php";
+    const url = "http://dev.workspace.cbs.lk/getItemsMbO.php";
     http.Response response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gunasewana Mills'),
+        title: Text('Merch By OMA'),
       ),
       drawer: Drawer(
         child: ListView(
