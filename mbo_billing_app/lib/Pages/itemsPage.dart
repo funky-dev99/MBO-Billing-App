@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:mbo_billing_app/Pages/priceChangePage.dart';
 import 'dart:convert';
 
+import 'addStockPage.dart';
 import 'homePage.dart';
 import 'itemsAddingPage.dart';
 
@@ -53,14 +54,14 @@ class _ItemsPageState extends State<ItemsPage> {
             TextButton(
               child: const Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
+
               },
             ),
             TextButton(
               child: const Text('Delete'),
               onPressed: () {
-                // deleteMainTask(taskId); // Call the deleteMainTask method
-                Navigator.of(context).pop(); // Close the dialog
+                removeItem(itemCode);
               },
             ),
           ],
@@ -68,6 +69,57 @@ class _ItemsPageState extends State<ItemsPage> {
       },
     );
   }
+
+  Future<bool> removeItem(
+      String itemCode,
+      ) async {
+    // Prepare the data to be sent to the PHP script.
+    var data = {
+      "item_code": itemCode,
+      "status_": '0',
+    };
+
+    // URL of your PHP script.
+    const url = "http://dev.workspace.cbs.lk/removeItemMbO.php";
+
+    try {
+      final res = await http.post(
+        Uri.parse(url),
+        body: data,
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      );
+
+      if (res.statusCode == 200) {
+        final responseBody = jsonDecode(res.body);
+
+        // Debugging: Print the response data.
+        print("Response from PHP script: $responseBody");
+
+        if (responseBody == "true") {
+          print('Remove Successful');
+          Navigator.of(context).pop(); // Close the dialog
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ItemsPage()),);
+
+          return true; // PHP code was successful.
+        } else {
+          print('PHP code returned "false".');
+          return false; // PHP code returned "false."
+        }
+      } else {
+        print('HTTP request failed with status code: ${res.statusCode}');
+        return false; // HTTP request failed.
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      return false; // An error occurred.
+    }
+  }
+
 
   void showMoreOptions(Item selectedItem) {
     showModalBottomSheet(
@@ -93,6 +145,12 @@ class _ItemsPageState extends State<ItemsPage> {
               onTap: () {
                 // Implement the logic for adding stock
                 Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddStockPage(item: selectedItem),
+                  ),
+                );
               },
             ),
           ],

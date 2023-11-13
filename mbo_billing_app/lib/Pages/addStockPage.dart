@@ -6,33 +6,34 @@ import '../sizes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
-class PriceChangePage extends StatefulWidget {
-  final Item item; // Assuming Item is your data model
-
-  const PriceChangePage({Key? key, required this.item}) : super(key: key);
+class AddStockPage extends StatefulWidget {
+  final Item item;
+  const AddStockPage({super.key, required this.item});
 
   @override
-  State<PriceChangePage> createState() => _PriceChangePageState();
+  State<AddStockPage> createState() => _AddStockPageState();
 }
 
-class _PriceChangePageState extends State<PriceChangePage> {
+class _AddStockPageState extends State<AddStockPage> {
+  final TextEditingController newStockController = TextEditingController();
 
-  final TextEditingController newPriceController = TextEditingController();
+  void addStock(String itemCode, String newStock) {
+    // Convert newStock to an integer
+    int newStockInt = int.tryParse(newStock) ?? 0;
 
+    // Call the addStock function with the integer value
+    addStockToServer(itemCode, newStockInt);
+  }
 
-  Future<bool> editPrice(
-      String itemCode,
-      String newPrice,
-      ) async {
+  Future<bool> addStockToServer(String itemCode, int newStock) async {
     // Prepare the data to be sent to the PHP script.
     var data = {
       "item_code": itemCode,
-      "price": newPrice,
+      "available_quantity": newStock.toString(),
     };
 
     // URL of your PHP script.
-    const url = "http://dev.workspace.cbs.lk/editPriceMbO.php";
+    const url = "http://dev.workspace.cbs.lk/addStockMbO.php";
 
     try {
       final res = await http.post(
@@ -68,6 +69,7 @@ class _PriceChangePageState extends State<PriceChangePage> {
     }
   }
 
+
   Future<void> showEditedSuccessfullyDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -79,7 +81,7 @@ class _PriceChangePageState extends State<PriceChangePage> {
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Price edited successfully!!'),
+                Text('Stock Added successfully!!'),
               ],
             ),
           ),
@@ -112,16 +114,18 @@ class _PriceChangePageState extends State<PriceChangePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Item Price'),
+        title: Text('Add Your Stock'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20,width: getPageWidth(context),),
-
+          SizedBox(
+            height: 20,
+            width: getPageWidth(context),
+          ),
           Container(
             width: 310,
-            height: 250,
+            height: 275,
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: Colors.grey.shade200,
@@ -136,41 +140,56 @@ class _PriceChangePageState extends State<PriceChangePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5,left: 15 ,top: 10),
-                  child: Text('Item Code: ${widget.item.itemCode}',style: TextStyle(fontSize: 16),),
+                  padding: const EdgeInsets.only(bottom: 5, left: 15, top: 10),
+                  child: Text(
+                    'Item Code: ${widget.item.itemCode}',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 5,left: 15),
-                  child: Text('Item Name: ${widget.item.name}',style: TextStyle(fontSize: 16),),
+                  padding: const EdgeInsets.only(bottom: 5, left: 15),
+                  child: Text(
+                    'Item Name: ${widget.item.name}',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 15,left: 15),
-                  child: Text('Current Price: ${widget.item.price}',style: TextStyle(fontSize: 16),),
+                  padding: const EdgeInsets.only(bottom: 15, left: 15),
+                  child: Text(
+                    'Current Quantity: ${widget.item.availableQuantity}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5, left: 12),
+                  child: Text(
+                    'New Quantity = Current Quantity + Added Quantity',
+                    style: TextStyle(fontSize: 12,color: Colors.redAccent),
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5,left: 15),
+                      padding: const EdgeInsets.only(bottom: 5, left: 15),
                       child: Text(
-                        "New price: ",
+                        "New Quantity: ",
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: Container(
-                        width: 180, // Adjust the width as needed
+                        width: 150, // Adjust the width as needed
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: TextField(
-                          controller: newPriceController,
-                          keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          controller: newStockController,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: '2800.00',
+                            hintText: '50',
                             hintStyle: TextStyle(color: Colors.grey),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.all(8),
@@ -180,27 +199,33 @@ class _PriceChangePageState extends State<PriceChangePage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 15,width: getPageWidth(context),),
-
+                SizedBox(
+                  height: 15,
+                  width: getPageWidth(context),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        editPrice(widget.item.itemCode, newPriceController.text);
-
+                        addStock(widget.item.itemCode, newStockController.text);
                       },
                       child: Text('Save'),
                     ),
-
-                    SizedBox(width: 15,),
+                    SizedBox(
+                      width: 15,
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ItemsPage()),);
+                          MaterialPageRoute(builder: (context) => ItemsPage()),
+                        );
                       },
-                      child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
                     ),
                   ],
                 ),
@@ -209,7 +234,6 @@ class _PriceChangePageState extends State<PriceChangePage> {
           ),
         ],
       ),
-
     );
   }
 }
