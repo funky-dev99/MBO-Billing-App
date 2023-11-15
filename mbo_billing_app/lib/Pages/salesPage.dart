@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:mbo_billing_app/colors.dart';
 
 import 'homePage.dart';
 
@@ -110,74 +111,85 @@ class _SalesPageState extends State<SalesPage> {
                           onTap: () {
                             _showBillDetailsDialog(context, data![index].billDetails);
                           },
-                          child: ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Bill No: ',
-                                          style: TextStyle(
-                                              fontSize: 15, color: Colors.black),
-                                        ),
-                                        SelectableText(
-                                          data![index].billNo,
-                                          style: TextStyle(
-                                              fontSize: 15, color: Colors.blueAccent),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      data![index].customer,
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black),
-                                    ),
-                                    Text(
-                                      '${data[index].billDate} ${data[index].dateTime} ',
-                                      style: TextStyle(
-                                          fontSize: 13, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              color: Colors.grey.shade500,
-                                              width: 1.0,
-                                            ),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: 5,
+                                horizontal: 10.0), // Add margin for the border
+                            decoration: BoxDecoration(
+                              color: AppColor.lightGreen,
+                              // border: Border.all(color: getBorderColor()), // Set border color
+                              borderRadius:
+                              BorderRadius.circular(10), // Set border radius
+                            ),
+                            child: ListTile(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Bill No: ',
+                                            style: TextStyle(
+                                                fontSize: 15, color: Colors.black),
                                           ),
-                                          child: Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                children: [
-                                                  Text(' Rs. ${data[index].subTotal} ', style: TextStyle(fontSize: 15)),
-                                                ],
+                                          SelectableText(
+                                            data![index].billNo,
+                                            style: TextStyle(
+                                                fontSize: 15, color: Colors.blueAccent),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(
+                                        data![index].customer,
+                                        style: TextStyle(
+                                            fontSize: 15, color: Colors.black),
+                                      ),
+                                      Text(
+                                        '${data[index].billDate} ${data[index].dateTime} ',
+                                        style: TextStyle(
+                                            fontSize: 13, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Colors.grey.shade500,
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(5.0),
+                                                child: Row(
+                                                  children: [
+                                                    Text(' Rs. ${data[index].subTotal} ', style: TextStyle(fontSize: 15)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Divider(), // Add a divider
+                        Divider(color: AppColor.appYellowL,), // Add a divider
                       ],
                     );
                   },
