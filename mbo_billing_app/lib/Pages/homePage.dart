@@ -74,7 +74,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: Center(child: Text('Merch By OMA')),
+        title: Center(
+            child: Text(
+          'Merch By OMA',
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: AppColor.darkGreen),
+        )),
         actions: [
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
@@ -100,34 +105,56 @@ class _HomePageState extends State<HomePage> {
               child: DrawerHeader(
                 child: Center(
                   child: Container(
-                    child: Text('Options'),
+                    child: Text('Options',style: TextStyle(fontSize: 20,color: AppColor.darkGreen),),
                   ),
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(
-                Icons.insert_chart_outlined_rounded,
+            Container(
+              margin: EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 15.0), // Add margin for the border
+              decoration: BoxDecoration(
+                color: AppColor.appWhite,
+                border: Border.all(color: AppColor.appYellow), // Set border color
+                borderRadius:
+                BorderRadius.circular(15), // Set border radius
               ),
-              title: Text('Sales'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SalesPage()),
-                );
-              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.insert_chart_outlined_rounded,
+                ),
+                title: Text('Sales'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SalesPage()),
+                  );
+                },
+              ),
             ),
-            ListTile(
-              leading: Icon(Icons.business_center_outlined),
-              title: Text('Items'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ItemsPage()),
-                );
-              },
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: 5,
+                  horizontal: 15.0), // Add margin for the border
+              decoration: BoxDecoration(
+                color: AppColor.appWhite,
+                border: Border.all(color: AppColor.appYellow), // Set border color
+                borderRadius:
+                BorderRadius.circular(15), // Set border radius
+              ),
+              child: ListTile(
+                leading: Icon(Icons.business_center_outlined),
+                title: Text('Items'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ItemsPage()),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -260,12 +287,12 @@ class _ItemTileState extends State<ItemTile> {
 
   Color getBorderColor() {
     return selected
-        ? AppColor.darkGreen
-        : Colors.grey; // Change border color as needed
+        ? AppColor.appWhite
+        : Colors.white; // Change border color as needed
   }
 
   double getBorderRadius() {
-    return selected ? 8.0 : 0.0; // Change border radius as needed
+    return selected ? 10.0 : 10.0; // Change border radius as needed
   }
 
   @override
@@ -280,7 +307,8 @@ class _ItemTileState extends State<ItemTile> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 8.0), // Add margin for the border
+            margin: EdgeInsets.symmetric(
+                horizontal: 8.0), // Add margin for the border
             decoration: BoxDecoration(
               color: getItemTileColor(),
               border: Border.all(color: getBorderColor()), // Set border color
@@ -336,7 +364,9 @@ class _ItemTileState extends State<ItemTile> {
               ),
             ),
           ),
-          Divider(color: AppColor.appYellowL,),
+          Divider(
+            color: AppColor.appYellowL,
+          ),
         ],
       ),
     );
