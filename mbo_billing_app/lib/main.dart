@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'Pages/homePage.dart';
+import 'colors.dart';
 
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.darkGreen),
         useMaterial3: true,
       ),
       home: HomePage(),

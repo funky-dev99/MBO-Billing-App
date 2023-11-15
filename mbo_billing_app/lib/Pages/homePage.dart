@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mbo_billing_app/Pages/printerPage.dart';
 import 'package:mbo_billing_app/Pages/salesPage.dart';
+import 'package:mbo_billing_app/colors.dart';
 
 import 'itemsPage.dart';
 
@@ -36,15 +36,19 @@ class _HomePageState extends State<HomePage> {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
-        List<Item> items = jsonResponse.map((item) => Item(
-          item['item_code'],
-          item['item_name'],
-          double.parse(item['price'].toString()), // Parse price to double
-          0,
-          0.0,
-          isSelected: false,
-          availableQuantity: int.parse(item['available_quantity'].toString()), // Convert to int
-        )).toList();
+        List<Item> items = jsonResponse
+            .map((item) => Item(
+                  item['item_code'],
+                  item['item_name'],
+                  double.parse(
+                      item['price'].toString()), // Parse price to double
+                  0,
+                  0.0,
+                  isSelected: false,
+                  availableQuantity: int.parse(
+                      item['available_quantity'].toString()), // Convert to int
+                ))
+            .toList();
 
         return items;
       }
@@ -69,13 +73,42 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Merch By OMA'),
+        elevation: 2,
+        title: Center(child: Text('Merch By OMA')),
+        actions: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: AppColor.appWhite,
+              border: Border.all(color: AppColor.appYellow), // Set border color
+              borderRadius: BorderRadius.circular(10), // Set border radius
+            ),
+            child: Image.asset(
+              'images/omaLogoT.png', // Replace with your image path
+              fit: BoxFit.cover, // Adjust the fit as needed
+            ),
+          )
+        ],
       ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
+            Container(
+              height: 80,
+              child: DrawerHeader(
+                child: Center(
+                  child: Container(
+                    child: Text('Options'),
+                  ),
+                ),
+              ),
+            ),
             ListTile(
-              leading: Icon(Icons.insert_chart_outlined_rounded,),
+              leading: Icon(
+                Icons.insert_chart_outlined_rounded,
+              ),
               title: Text('Sales'),
               onTap: () {
                 Navigator.pop(context);
@@ -144,7 +177,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: ElevatedButton(
         onPressed: () {
           List<Item> selectedItems =
-          items.where((item) => item.isSelected).toList();
+              items.where((item) => item.isSelected).toList();
           double subtotal = 0;
           for (var item in selectedItems) {
             subtotal += item.total;
@@ -166,7 +199,22 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-        child: Text('Print'),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: AppColor.appYellow),
+            ),
+          ),
+        ),
+        child: Container(
+            width: 60, // set your desired width
+            height: 50, // set your desired height
+            child: Icon(
+              Icons.print_outlined,
+              color: AppColor.appYellow,
+              size: 30,
+            )),
       ),
     );
   }
@@ -179,7 +227,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 }
-
 
 class ItemTile extends StatefulWidget {
   final Item item;
@@ -208,11 +255,13 @@ class _ItemTileState extends State<ItemTile> {
   }
 
   Color getItemTileColor() {
-    return selected ? Colors.deepOrange.shade100 : Colors.white;
+    return selected ? AppColor.lightGreen : Colors.white;
   }
 
   Color getBorderColor() {
-    return selected ? Colors.deepOrange : Colors.grey; // Change border color as needed
+    return selected
+        ? AppColor.darkGreen
+        : Colors.grey; // Change border color as needed
   }
 
   double getBorderRadius() {
@@ -228,63 +277,71 @@ class _ItemTileState extends State<ItemTile> {
           widget.onSelectedChanged(selected);
         });
       },
-      child: Container(
-        margin: EdgeInsets.all(8.0), // Add margin for the border
-        decoration: BoxDecoration(
-          color: getItemTileColor(),
-          border: Border.all(color: getBorderColor()), // Set border color
-          borderRadius: BorderRadius.circular(getBorderRadius()), // Set border radius
-        ),
-        child: ListTile(
-          title: Text(widget.item.name),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Rs:${widget.item.price.toStringAsFixed(2)}'),
-              Text('Available Quantity: ${widget.item.availableQuantity}'),
-            ],
-          ),
-          leading: Checkbox(
-            value: selected,
-            onChanged: (newValue) {
-              setState(() {
-                selected = newValue ?? false;
-                widget.onSelectedChanged(selected);
-              });
-            },
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.remove),
-                onPressed: () {
-                  if (quantity > 0) {
-                    setState(() {
-                      quantity--;
-                      widget.onQuantityChanged(quantity);
-                    });
-                  }
-                },
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.0), // Add margin for the border
+            decoration: BoxDecoration(
+              color: getItemTileColor(),
+              border: Border.all(color: getBorderColor()), // Set border color
+              borderRadius:
+                  BorderRadius.circular(getBorderRadius()), // Set border radius
+            ),
+            child: ListTile(
+              title: Text(widget.item.name),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Rs:${widget.item.price.toStringAsFixed(2)}'),
+                  Text('Available Quantity: ${widget.item.availableQuantity}'),
+                ],
               ),
-              Text(quantity.toString()),
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
+              leading: Checkbox(
+                value: selected,
+                onChanged: (newValue) {
                   setState(() {
-                    quantity++;
-                    widget.onQuantityChanged(quantity);
+                    selected = newValue ?? false;
+                    widget.onSelectedChanged(selected);
                   });
                 },
               ),
-            ],
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.remove),
+                    onPressed: () {
+                      if (quantity > 0) {
+                        setState(() {
+                          quantity--;
+                          widget.onQuantityChanged(quantity);
+                        });
+                      }
+                    },
+                  ),
+                  Text(
+                    quantity.toString(),
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      setState(() {
+                        quantity++;
+                        widget.onQuantityChanged(quantity);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          Divider(color: AppColor.appYellowL,),
+        ],
       ),
     );
   }
 }
-
 
 class Item {
   final String itemCode;
