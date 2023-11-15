@@ -180,6 +180,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+
 class ItemTile extends StatefulWidget {
   final Item item;
   final ValueChanged<int> onQuantityChanged;
@@ -206,6 +207,18 @@ class _ItemTileState extends State<ItemTile> {
     selected = widget.item.isSelected;
   }
 
+  Color getItemTileColor() {
+    return selected ? Colors.deepOrange.shade100 : Colors.white;
+  }
+
+  Color getBorderColor() {
+    return selected ? Colors.deepOrange : Colors.grey; // Change border color as needed
+  }
+
+  double getBorderRadius() {
+    return selected ? 8.0 : 0.0; // Change border radius as needed
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -215,54 +228,63 @@ class _ItemTileState extends State<ItemTile> {
           widget.onSelectedChanged(selected);
         });
       },
-      child: ListTile(
-        title: Text(widget.item.name),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Rs:${widget.item.price.toStringAsFixed(2)}'),
-            Text('Available Quantity: ${widget.item.availableQuantity}'),
-          ],
+      child: Container(
+        margin: EdgeInsets.all(8.0), // Add margin for the border
+        decoration: BoxDecoration(
+          color: getItemTileColor(),
+          border: Border.all(color: getBorderColor()), // Set border color
+          borderRadius: BorderRadius.circular(getBorderRadius()), // Set border radius
         ),
-        leading: Checkbox(
-          value: selected,
-          onChanged: (newValue) {
-            setState(() {
-              selected = newValue ?? false;
-              widget.onSelectedChanged(selected);
-            });
-          },
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {
-                if (quantity > 0) {
+        child: ListTile(
+          title: Text(widget.item.name),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Rs:${widget.item.price.toStringAsFixed(2)}'),
+              Text('Available Quantity: ${widget.item.availableQuantity}'),
+            ],
+          ),
+          leading: Checkbox(
+            value: selected,
+            onChanged: (newValue) {
+              setState(() {
+                selected = newValue ?? false;
+                widget.onSelectedChanged(selected);
+              });
+            },
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.remove),
+                onPressed: () {
+                  if (quantity > 0) {
+                    setState(() {
+                      quantity--;
+                      widget.onQuantityChanged(quantity);
+                    });
+                  }
+                },
+              ),
+              Text(quantity.toString()),
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
                   setState(() {
-                    quantity--;
+                    quantity++;
                     widget.onQuantityChanged(quantity);
                   });
-                }
-              },
-            ),
-            Text(quantity.toString()),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                setState(() {
-                  quantity++;
-                  widget.onQuantityChanged(quantity);
-                });
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
 
 class Item {
   final String itemCode;
