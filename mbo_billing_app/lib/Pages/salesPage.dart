@@ -59,6 +59,7 @@ class _SalesPageState extends State<SalesPage> {
       length: 4, // Number of tabs (Today, This Month, All, Filter)
       child: Scaffold(
         appBar: AppBar(
+          elevation: 2,
           leading: IconButton(icon: Icon(Icons.arrow_back_rounded), onPressed: () {
             Navigator.pop(context);
             Navigator.push(
@@ -101,6 +102,7 @@ class _SalesPageState extends State<SalesPage> {
 
           return Column(
             children: [
+              SizedBox(height: 4,),
               Expanded(
                 child: ListView.builder(
                   itemCount: data!.length,
@@ -135,10 +137,10 @@ class _SalesPageState extends State<SalesPage> {
                                             style: TextStyle(
                                                 fontSize: 15, color: Colors.black),
                                           ),
-                                          SelectableText(
+                                          Text(
                                             data![index].billNo,
                                             style: TextStyle(
-                                                fontSize: 15, color: Colors.blueAccent),
+                                                fontSize: 15, color: Colors.black87),
                                           ),
                                         ],
                                       ),
@@ -150,7 +152,7 @@ class _SalesPageState extends State<SalesPage> {
                                       Text(
                                         '${data[index].billDate} ${data[index].dateTime} ',
                                         style: TextStyle(
-                                            fontSize: 13, color: Colors.grey),
+                                            fontSize: 13, color: Colors.black45),
                                       ),
                                     ],
                                   ),
@@ -165,7 +167,7 @@ class _SalesPageState extends State<SalesPage> {
                                               borderRadius: BorderRadius.circular(20),
                                               color: Colors.white,
                                               border: Border.all(
-                                                color: Colors.grey.shade500,
+                                                color: AppColor.appYellow,
                                                 width: 1.0,
                                               ),
                                             ),
@@ -200,7 +202,7 @@ class _SalesPageState extends State<SalesPage> {
                 padding: EdgeInsets.all(16),
                 child: Text(
                   "Total Sales for $tabName: Rs. ${calculateTotalSales(data)}",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: AppColor.darkGreen),
                 ),
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mbo_billing_app/colors.dart';
 import 'homePage.dart';
 
 
@@ -333,7 +334,7 @@ class _PrinterPageState extends State<PrinterPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Connect Bluetooth Printer'),
+        title: Center(child:  Text('Connect Bluetooth Printer',style: TextStyle(color: AppColor.darkGreen),)),
       ),
       body: RefreshIndicator(
         onRefresh: () =>
@@ -350,7 +351,7 @@ class _PrinterPageState extends State<PrinterPage> {
                   ),
                 ],
               ),
-              Divider(),
+              Divider(color: AppColor.appYellowL,),
               StreamBuilder<List<BluetoothDevice>>(
                 stream: bluetoothPrint.scanResults,
                 initialData: [],
@@ -370,7 +371,7 @@ class _PrinterPageState extends State<PrinterPage> {
                   )).toList(),
                 ),
               ),
-              Divider(),
+              Divider(color: AppColor.appYellowL,),
               Container(
                 padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                 child: Column(
@@ -406,7 +407,7 @@ class _PrinterPageState extends State<PrinterPage> {
                         ),
                       ],
                     ),
-                    Divider(),
+                    Divider(color: AppColor.appYellowL,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -436,7 +437,7 @@ class _PrinterPageState extends State<PrinterPage> {
                         // Add other receipt details here.
                       ],
                     ),
-                    Divider(),
+                    Divider(color: AppColor.appYellowL,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -563,11 +564,15 @@ class _PrinterPageState extends State<PrinterPage> {
             );
           } else {
             return FloatingActionButton(
-                child: Icon(Icons.search),
+              backgroundColor: AppColor.darkGreen,
+                child: Icon(Icons.search,color:AppColor.appWhite,),
                 onPressed: () => bluetoothPrint.startScan(timeout: Duration(seconds: 4)));
           }
         },
+
+
       ),
+
     );
   }
 }

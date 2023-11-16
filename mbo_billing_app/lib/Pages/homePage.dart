@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mbo_billing_app/Pages/printerPage.dart';
 import 'package:mbo_billing_app/Pages/salesPage.dart';
 import 'package:mbo_billing_app/colors.dart';
+import 'package:mbo_billing_app/sizes.dart';
 
 import 'itemsPage.dart';
 
@@ -199,6 +200,14 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
+
+          Container(
+            width: getPageWidth(context),
+            height: 70,
+            color: Colors.white,
+
+
+          )
         ],
       ),
       floatingActionButton: ElevatedButton(
@@ -227,10 +236,11 @@ class _HomePageState extends State<HomePage> {
           );
         },
         style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(AppColor.darkGreen),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25.0),
-              side: BorderSide(color: AppColor.appYellow),
+              side: BorderSide(color: AppColor.appWhite),
             ),
           ),
         ),
@@ -239,7 +249,7 @@ class _HomePageState extends State<HomePage> {
             height: 50, // set your desired height
             child: Icon(
               Icons.print_outlined,
-              color: AppColor.appYellow,
+              color: AppColor.appWhite,
               size: 30,
             )),
       ),

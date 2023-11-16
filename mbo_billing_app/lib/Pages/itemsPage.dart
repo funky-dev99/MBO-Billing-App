@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:mbo_billing_app/Pages/priceChangePage.dart';
 import 'dart:convert';
 
+import '../colors.dart';
+import '../sizes.dart';
 import 'addStockPage.dart';
 import 'homePage.dart';
 import 'itemsAddingPage.dart';
@@ -164,6 +166,7 @@ class _ItemsPageState extends State<ItemsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
         title: Text('Items'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_rounded),
@@ -176,55 +179,66 @@ class _ItemsPageState extends State<ItemsPage> {
           },
         ),
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${items[index].itemCode} | ${items[index].name}'),
-                        Text('Rs:${items[index].price.toStringAsFixed(2)}'),
-                        Text('Quantity: ${items[index].availableQuantity}'),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            showRemoveConfirmationDialog(context, items[index].itemCode);
-                          },
-                          icon: Icon(
-                            Icons.remove_circle_outline_rounded,
-                            color: Colors.redAccent,
+                    ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${items[index].itemCode} | ${items[index].name}'),
+                              Text('Rs:${items[index].price.toStringAsFixed(2)}'),
+                              Text('Quantity: ${items[index].availableQuantity}'),
+                            ],
                           ),
-                          tooltip: 'Remove Item',
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showMoreOptions(items[index]);
-                          },
-                          icon: Icon(
-                            Icons.more_vert_rounded,
-                            color: Colors.black,
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  showRemoveConfirmationDialog(context, items[index].itemCode);
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle_outline_rounded,
+                                  color: Colors.redAccent,
+                                ),
+                                tooltip: 'Remove Item',
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showMoreOptions(items[index]);
+                                },
+                                icon: Icon(
+                                  Icons.more_vert_rounded,
+                                  color: Colors.black,
+                                ),
+                                tooltip: 'More',
+                              )
+                            ],
                           ),
-                          tooltip: 'More',
-                        )
-                      ],
+                        ],
+                      ),
+                      // Add more details if needed
                     ),
+                    Divider(color: AppColor.appYellowL,)
                   ],
-                ),
-                // Add more details if needed
-              ),
-              Divider()
-            ],
-          );
-        },
+                );
+              },
+            ),
+          ),
+          Container(
+            width: getPageWidth(context),
+            height: 70,
+            color: Colors.white,
+          )
+        ],
       ),
 
       floatingActionButton: ElevatedButton(
@@ -234,7 +248,20 @@ class _ItemsPageState extends State<ItemsPage> {
             context,
             MaterialPageRoute(builder: (context) => AddingItemsPage()),);
         },
-        child: Text('Add Items'),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(AppColor.darkGreen),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: AppColor.appWhite),
+            ),
+          ),
+        ),
+        child: Container(
+          height: 45,
+            width: 80,
+
+            child: Center(child: Text('Add Items',style: TextStyle(color: AppColor.appWhite,fontSize: 16),))),
       ),
     );
   }
