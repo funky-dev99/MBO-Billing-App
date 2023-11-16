@@ -129,31 +129,53 @@ class _ItemsPageState extends State<ItemsPage> {
       builder: (BuildContext context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
+
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            ListTile(
-              title: Text('Change Price'),
-              onTap: () {
-                Navigator.pop(context); // Close the bottom sheet
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PriceChangePage(item: selectedItem),
-                  ),
-                );
-              },
+            Container(
+              margin: EdgeInsets.only(left: 5,top: 10),
+              child: ListTile(
+                title:  Row(
+                  children: [
+                    Text('Change Price',style: TextStyle(color: AppColor.darkGreen),),
+                    SizedBox(width: 5,),
+                    Icon(Icons.price_change_outlined,color: AppColor.darkGreen,)
+                  ],
+                ),
+                onTap: () {
+                  Navigator.pop(context); // Close the bottom sheet
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PriceChangePage(item: selectedItem),
+                    ),
+                  );
+                },
+              ),
             ),
-            ListTile(
-              title: Text('Add Stock'),
-              onTap: () {
-                // Implement the logic for adding stock
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddStockPage(item: selectedItem),
-                  ),
-                );
-              },
+
+            Divider(color: AppColor.lightGreen,),
+            Container(
+              margin: EdgeInsets.only(left: 5,bottom: 10),
+              child: ListTile(
+                title: Row(
+                  children: [
+                    Text('Add Stock',style: TextStyle(color: AppColor.darkGreen),),
+                    SizedBox(width: 5,),
+                    Icon(Icons.add_business_outlined,color: AppColor.darkGreen,)
+                  ],
+                ),
+                onTap: () {
+                  // Implement the logic for adding stock
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddStockPage(item: selectedItem),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         );
